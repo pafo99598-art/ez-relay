@@ -1,0 +1,1 @@
+{"name":"ez-relay","private":true,"scripts":{"deploy":"wrangler deploy"},"devDependencies":{"wrangler":"^3"}}
