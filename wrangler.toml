@@ -4,6 +4,12 @@ compatibility_date = "2025-01-01"
 [[durable_objects.bindings]]
 name = "ROOM"
 class_name = "Room"
+[[durable_objects.bindings]]
+name = "ACC"
+class_name = "Accounts"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["Room"]
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["Accounts"]

@@ -1,6 +1,9 @@
 // EVOLVED ZONE · ponte online (Cloudflare Worker + Durable Object)
 // Ogni lobby ha una "stanza": chi crea la lobby (host) e gli amici si collegano qui e i messaggi passano dal ponte.
 // Così non serve più il collegamento diretto tra le due reti (che i router spesso bloccano).
+// 0.37 (31/10/2026): qui passano anche gli account del gioco (/acc/...), vedi accounts.js.
+import { Accounts, accFetch } from './accounts.js';
+export { Accounts };
 export class Room {
   constructor(state, env) { this.state = state; this.host = null; this.clients = new Map(); }
   async fetch(req) {
@@ -40,6 +43,7 @@ export class Room {
 export default {
   async fetch(req, env) {
     const u = new URL(req.url);
+    if (u.pathname.startsWith('/acc/')) return accFetch(req, env);
     const m = u.pathname.match(/^\/r\/([A-Za-z0-9_-]{3,64})$/);
     if (!m) return new Response('EVOLVED ZONE relay ok', { headers: { 'access-control-allow-origin': '*' } });
     return env.ROOM.get(env.ROOM.idFromName(m[1])).fetch(req);
